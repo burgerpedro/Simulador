@@ -1,6 +1,6 @@
 package br.gov.caixa.Simulador.controller;
 
-import br.gov.caixa.Simulador.model.dto.*;
+import br.gov.caixa.Simulador.dto.*;
 import br.gov.caixa.Simulador.model.local.Simulacao;
 import br.gov.caixa.Simulador.model.request.SimulacaoDetalhe;
 import br.gov.caixa.Simulador.service.SimulacaoService;

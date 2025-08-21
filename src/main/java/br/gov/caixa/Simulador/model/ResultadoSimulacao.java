@@ -8,7 +8,7 @@ public class ResultadoSimulacao {
     private int codigoProduto;
     private String descricaoProduto;
     private BigDecimal taxaJuros;
-    private List<ResultadoAmortizacao> resultadoAmortizacao;
+    private List<ResultadoAmortizacao> resultadoSimulacao;
 
     public int getIdSimulacao() {
         return idSimulacao;
@@ -42,11 +42,11 @@ public class ResultadoSimulacao {
         this.taxaJuros = taxaJuros;
     }
 
-    public List<ResultadoAmortizacao> getResultadoAmortizacao() {
-        return resultadoAmortizacao;
+    public List<ResultadoAmortizacao> getResultadoSimulacao() {
+        return resultadoSimulacao;
     }
 
-    public void setResultadoAmortizacao(List<ResultadoAmortizacao> resultadoAmortizacao) {
-        this.resultadoAmortizacao = resultadoAmortizacao;
+    public void setResultadoSimulacao(List<ResultadoAmortizacao> resultadoSimulacao) {
+        this.resultadoSimulacao = resultadoSimulacao;
     }
 }

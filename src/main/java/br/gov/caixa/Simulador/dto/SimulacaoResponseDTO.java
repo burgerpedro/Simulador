@@ -1,4 +1,4 @@
-package br.gov.caixa.Simulador.model.dto;
+package br.gov.caixa.Simulador.dto;
 
 import br.gov.caixa.Simulador.model.ResultadoAmortizacao;
 import br.gov.caixa.Simulador.model.ResultadoSimulacao;
@@ -11,14 +11,14 @@ public class SimulacaoResponseDTO {
     private int codigoProduto;
     private String descricaoProduto;
     private BigDecimal taxaJuros;
-    private List<ResultadoAmortizacao> resultadoAmortizacao;
+    private List<ResultadoAmortizacao> resultadoSimulacao;
 
     public SimulacaoResponseDTO(ResultadoSimulacao resultado) {
         this.idSimulacao = resultado.getIdSimulacao();
         this.codigoProduto = resultado.getCodigoProduto();
         this.descricaoProduto = resultado.getDescricaoProduto();
         this.taxaJuros = resultado.getTaxaJuros();
-        this.resultadoAmortizacao = resultado.getResultadoAmortizacao();
+        this.resultadoSimulacao = resultado.getResultadoSimulacao();
     }
 
     public int getIdSimulacao() {
@@ -53,11 +53,11 @@ public class SimulacaoResponseDTO {
         this.taxaJuros = taxaJuros;
     }
 
-    public List<ResultadoAmortizacao> getResultadoAmortizacao() {
-        return resultadoAmortizacao;
+    public List<ResultadoAmortizacao> getResultadoSimulacao() {
+        return resultadoSimulacao;
     }
 
-    public void setResultadoAmortizacao(List<ResultadoAmortizacao> resultadoAmortizacao) {
-        this.resultadoAmortizacao = resultadoAmortizacao;
+    public void setResultadoSimulacao(List<ResultadoAmortizacao> resultadoSimulacao) {
+        this.resultadoSimulacao = resultadoSimulacao;
     }
 }

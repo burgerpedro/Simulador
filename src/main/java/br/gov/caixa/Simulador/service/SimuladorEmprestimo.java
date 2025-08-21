@@ -22,10 +22,11 @@ public class SimuladorEmprestimo {
         resultado.setTaxaJuros(taxaJuros);
 
         List<ResultadoAmortizacao> resultados = new ArrayList<>();
-        resultados.add(calcularPrice(valorDesejado, prazo, taxaJuros));
         resultados.add(calcularSac(valorDesejado, prazo, taxaJuros));
+        resultados.add(calcularPrice(valorDesejado, prazo, taxaJuros));
 
-        resultado.setResultadoAmortizacao(resultados);
+
+        resultado.setResultadoSimulacao(resultados);
 
         return resultado;
     }

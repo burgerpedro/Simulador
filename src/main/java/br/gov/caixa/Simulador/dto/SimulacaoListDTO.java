@@ -1,4 +1,4 @@
-package br.gov.caixa.Simulador.model.dto;
+package br.gov.caixa.Simulador.dto;
 
 import br.gov.caixa.Simulador.model.local.Simulacao;
 

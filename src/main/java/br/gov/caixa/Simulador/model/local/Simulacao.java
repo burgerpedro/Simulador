@@ -1,6 +1,8 @@
 package br.gov.caixa.Simulador.model.local;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,8 +25,8 @@ public class Simulacao {
     @Column(name = "taxa_juros", precision = 10, scale = 9)
     private BigDecimal taxaJuros;
 
-    @Lob
-    @Column(name = "resultado_simulacao")
+    @Column(name = "resultado_simulacao", columnDefinition = "jsonb")
+    @Type(JsonType.class)
     private String resultadoSimulacaoJson;
 
     @Column(name="vr_total_parcela")

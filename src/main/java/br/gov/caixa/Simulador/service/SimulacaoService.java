@@ -1,12 +1,11 @@
 package br.gov.caixa.Simulador.service;
 
+import br.gov.caixa.Simulador.dto.SimulacaoRequestDTO;
+import br.gov.caixa.Simulador.dto.SimulacaoResponseDTO;
 import br.gov.caixa.Simulador.exception.DadosInvalidosException;
 import br.gov.caixa.Simulador.exception.ProdutoNaoEncontradoException;
-import br.gov.caixa.Simulador.model.EntradaSimulacao;
-import br.gov.caixa.Simulador.model.dto.SimulacaoRequestDTO;
-import br.gov.caixa.Simulador.model.dto.SimulacaoResponseDTO;
-import br.gov.caixa.Simulador.model.external.Produto;
 import br.gov.caixa.Simulador.model.ResultadoSimulacao;
+import br.gov.caixa.Simulador.model.external.Produto;
 import br.gov.caixa.Simulador.model.local.Simulacao;
 import br.gov.caixa.Simulador.model.request.SimulacaoDetalhe;
 import br.gov.caixa.Simulador.repository.external.ProdutoRepository;
@@ -22,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SimulacaoService {
@@ -39,42 +37,55 @@ public class SimulacaoService {
     @Autowired
     private EventHubService eventHubService;
 
-    // Objeto para serialização JSON
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
     public SimulacaoResponseDTO simularEGravar(SimulacaoRequestDTO requestDTO) {
+        validarRequest(requestDTO);
 
+        Produto produto = buscarProduto(requestDTO);
+
+        ResultadoSimulacao resultado = simularEmprestimo(requestDTO, produto);
+
+        Simulacao simulacao = criarSimulacao(requestDTO, resultado);
+
+        salvarSimulacao(simulacao, resultado);
+
+        enviarParaEventHub(resultado);
+
+        return new SimulacaoResponseDTO(resultado);
+    }
+
+       private void validarRequest(SimulacaoRequestDTO requestDTO) {
         if (requestDTO.getValorDesejado() == null || requestDTO.getValorDesejado().compareTo(BigDecimal.ZERO) <= 0) {
             throw new DadosInvalidosException("O valor desejado deve ser maior que zero.");
         }
         if (requestDTO.getPrazo() <= 0) {
-            throw new DadosInvalidosException("O prazo deve ser um número positivo.");
+            throw new DadosInvalidosException("O prazo deve ser maior que 0.");
         }
+    }
 
-        Optional<Produto> produtoOptional = produtoRepository.findByRange(requestDTO.getValorDesejado(), requestDTO.getPrazo());
+    private Produto buscarProduto(SimulacaoRequestDTO requestDTO) {
+        return produtoRepository.findByRange(requestDTO.getValorDesejado(), requestDTO.getPrazo())
+                .orElseThrow(() -> new ProdutoNaoEncontradoException("Não foi encontrado produto que se encaixe nas condições de valor e prazo."));
+    }
 
-        if (produtoOptional.isEmpty()) {
-            throw new ProdutoNaoEncontradoException("Não foi encontrado produto que se encaixe nas condições de valor e prazo.");
-        }
-
-        Produto produto = produtoOptional.get();
-
-        ResultadoSimulacao resultado = simuladorEmprestimo.simularEmprestimo(
+    private ResultadoSimulacao simularEmprestimo(SimulacaoRequestDTO requestDTO, Produto produto) {
+        return simuladorEmprestimo.simularEmprestimo(
                 requestDTO.getValorDesejado(),
                 requestDTO.getPrazo(),
                 produto.getCoProduto(),
                 produto.getNoProduto(),
                 produto.getPcTaxaJuros()
         );
+    }
 
-        // Calcular o valor total das parcelas para persistir no banco local
-        BigDecimal valorTotalParcelas = resultado.getResultadoAmortizacao().stream()
+    private Simulacao criarSimulacao(SimulacaoRequestDTO requestDTO, ResultadoSimulacao resultado) {
+        BigDecimal valorTotalParcelas = resultado.getResultadoSimulacao().stream()
                 .flatMap(res -> res.getParcelas().stream())
                 .map(p -> p.getValorPrestacao())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // Criar e preencher a entidade de Simulação para salvar no banco local
         Simulacao simulacao = new Simulacao();
         simulacao.setCodigoProduto(resultado.getCodigoProduto());
         simulacao.setDescricaoProduto(resultado.getDescricaoProduto());
@@ -84,27 +95,28 @@ public class SimulacaoService {
         simulacao.setValorTotalParcelas(valorTotalParcelas);
         simulacao.setDataReferencia(LocalDate.now());
 
-        // Serializa o resultado da simulacao para JSON antes de salvar
         try {
-            String resultadoSimulacaoJson = objectMapper.writeValueAsString(resultado.getResultadoAmortizacao());
+            String resultadoSimulacaoJson = objectMapper.writeValueAsString(resultado.getResultadoSimulacao());
             simulacao.setResultadoSimulacaoJson(resultadoSimulacaoJson);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Erro ao serializar o resultado da simulação para JSON.", e);
         }
 
+        return simulacao;
+    }
+
+    private void salvarSimulacao(Simulacao simulacao, ResultadoSimulacao resultado) {
         simulacaoRepository.save(simulacao);
         resultado.setIdSimulacao(simulacao.getIdSimulacao());
+    }
 
-        // Enviar o envelope JSON para o EventHub
+    private void enviarParaEventHub(ResultadoSimulacao resultado) {
         try {
             String jsonPayload = objectMapper.writeValueAsString(resultado);
             eventHubService.enviarEvento(jsonPayload);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Erro ao serializar o resultado para o EventHub.", e);
         }
-
-        // Converte o resultado para DTO antes de retornar
-        return new SimulacaoResponseDTO(resultado);
     }
 
     public Page<Simulacao> listarSimulacoes(Pageable pageable) {

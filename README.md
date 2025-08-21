@@ -47,7 +47,10 @@ cd Simulador
 Execute a aplicação:
 ./mvnw spring-boot:run
 
-A aplicação estará acessível em http://localhost:8080.
+A aplicação estará acessível em http://localhost:8080/simulador/v1
+
+Collection Postman:
+https://api.postman.com/collections/47792610-a51bbeef-2666-42da-869b-604d2ff1bd78?access_key=PMAT-01K3766KJGJS6NQGR8KDKBN0YG
 
 Estrutura do Projeto
 src/main/java/br/gov/caixa/Simulador: Código-fonte da aplicação.

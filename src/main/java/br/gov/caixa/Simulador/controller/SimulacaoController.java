@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/api/simulador")
+@RequestMapping("/simulador/v1")
 public class SimulacaoController {
 
     @Autowired

@@ -1,16 +1,12 @@
 package br.gov.caixa.Simulador.service;
 
+import com.azure.messaging.eventhubs.EventData;
 import com.azure.messaging.eventhubs.EventDataBatch;
 import com.azure.messaging.eventhubs.EventHubClientBuilder;
 import com.azure.messaging.eventhubs.EventHubProducerClient;
-import com.azure.messaging.eventhubs.EventData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import jakarta.annotation.PreDestroy;
-
-import java.io.IOException;
 
 
 @Service
@@ -19,7 +15,6 @@ public class EventHubService {
     private final EventHubProducerClient producerClient;
 
     public EventHubService() {
-        // Conexão e EntityPath do EventHub fornecidos
         String connectionString = "Endpoint=sb://eventhack.servicebus.windows.net/;SharedAccessKeyName=hack;SharedAccessKey=HeHeVaVqyVkntO2FnjQcs2Ilh/4MUDo4y+AEhKp8z+g=;EntityPath=simulacoes";
         this.producerClient = new EventHubClientBuilder()
                 .connectionString(connectionString)

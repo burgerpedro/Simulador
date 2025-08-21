@@ -1,6 +1,5 @@
 package br.gov.caixa.Simulador.service;
 
-import br.gov.caixa.Simulador.model.EntradaSimulacao;
 import br.gov.caixa.Simulador.model.Parcela;
 import br.gov.caixa.Simulador.model.ResultadoAmortizacao;
 import br.gov.caixa.Simulador.model.ResultadoSimulacao;

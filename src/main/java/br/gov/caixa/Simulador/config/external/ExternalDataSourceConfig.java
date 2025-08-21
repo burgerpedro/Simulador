@@ -24,19 +24,17 @@ import java.util.HashMap;
 )
 public class ExternalDataSourceConfig {
 
-    // Spring will automatically create this bean and apply the properties
     @Bean(name = "externalDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.external")
     public DataSource externalDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    // Now, we use @Qualifier to inject the fully configured DataSource bean.
-    // We no longer call externalDataSource() directly.
+
     @Bean(name = "externalEntityManager")
     public LocalContainerEntityManagerFactoryBean externalEntityManager(@Qualifier("externalDataSource") DataSource externalDataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(externalDataSource); // Use the injected bean
+        em.setDataSource(externalDataSource);
         em.setPackagesToScan("br.gov.caixa.Simulador.model.external");
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

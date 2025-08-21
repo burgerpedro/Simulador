@@ -15,7 +15,6 @@ public class TelemetriaService {
     private final ConcurrentHashMap<String, EndpointStats> endpointStats = new ConcurrentHashMap<>();
 
     public void updateMetrics(String endpointName, long duration) {
-        // Usa computeIfAbsent para garantir que o objeto EndpointStats existe antes de atualizar
         endpointStats.computeIfAbsent(endpointName, k -> new EndpointStats()).addCall(duration);
     }
 
@@ -31,7 +30,6 @@ public class TelemetriaService {
             metrics.setTempoMedio((long) stats.getAverageTime());
             metrics.setTempoMinimo(stats.getMinTime());
             metrics.setTempoMaximo(stats.getMaxTime());
-            // A lógica de percentual de sucesso é adicionada aqui para preencher o DTO
             metrics.setPercentualSucesso(stats.getSuccessPercentage());
             metricsList.add(metrics);
         });

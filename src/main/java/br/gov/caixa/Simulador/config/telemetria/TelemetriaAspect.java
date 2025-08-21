@@ -21,10 +21,8 @@ public class TelemetriaAspect {
         long end = System.currentTimeMillis();
         long duration = end - start;
 
-        // Constrói o nome do endpoint usando o nome do método do controlador
         String endpointName = joinPoint.getSignature().getName();
 
-        // Atualiza as métricas no TelemetryService
         telemetryService.updateMetrics(endpointName, duration);
 
         return result;

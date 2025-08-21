@@ -47,9 +47,6 @@ public class GlobalExceptionHandler {
         body.put("message", "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.");
         body.put("path", request.getDescription(false).substring(4));
 
-        // Para ambientes de desenvolvimento, você pode incluir a mensagem da exceção
-        //body.put("debugMessage", ex.getMessage());
-
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

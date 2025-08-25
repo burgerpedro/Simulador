@@ -5,18 +5,38 @@ import java.math.BigDecimal;
 public class SimulacaoDetalheDTO {
     private int codigoProduto;
     private String descricaoProduto;
-    private BigDecimal mediaTaxaJuros;
-    private BigDecimal mediaValorTotalParcelas;
-    private BigDecimal somaValorDesejado;
-    private BigDecimal somaValorTotalParcelas;
+    private BigDecimal taxaMediaJuro;
+    private BigDecimal valorMedioPrestacaoPrice;
+    private BigDecimal valorMedioPrestacaoSac;
+    private BigDecimal valorTotalDesejado;
+    private BigDecimal valorTotalCreditoPrice;
+    private BigDecimal valorTotalCreditoSac;
 
-    public SimulacaoDetalheDTO(int codigoProduto, String descricaoProduto, BigDecimal mediaTaxaJuros, BigDecimal mediaValorTotalParcelas, BigDecimal somaValorDesejado, BigDecimal somaValorTotalParcelas) {
+    public SimulacaoDetalheDTO(int codigoProduto, String descricaoProduto, BigDecimal taxaMediaJuro, BigDecimal valorMedioPrestacaoPrice, BigDecimal valorMedioPrestacaoSac, BigDecimal valorTotalDesejado, BigDecimal valorTotalCreditoPrice, BigDecimal valorTotalCreditoSac) {
         this.codigoProduto = codigoProduto;
         this.descricaoProduto = descricaoProduto;
-        this.mediaTaxaJuros = mediaTaxaJuros;
-        this.mediaValorTotalParcelas = mediaValorTotalParcelas;
-        this.somaValorDesejado = somaValorDesejado;
-        this.somaValorTotalParcelas = somaValorTotalParcelas;
+        this.taxaMediaJuro = taxaMediaJuro;
+        this.valorMedioPrestacaoPrice = valorMedioPrestacaoPrice;
+        this.valorMedioPrestacaoSac = valorMedioPrestacaoSac;
+        this.valorTotalDesejado = valorTotalDesejado;
+        this.valorTotalCreditoPrice = valorTotalCreditoPrice;
+        this.valorTotalCreditoSac = valorTotalCreditoSac;
+    }
+
+    public BigDecimal getValorMedioPrestacaoPrice() {
+        return valorMedioPrestacaoPrice;
+    }
+
+    public void setValorMedioPrestacaoPrice(BigDecimal valorMedioPrestacaoPrice) {
+        this.valorMedioPrestacaoPrice = valorMedioPrestacaoPrice;
+    }
+
+    public BigDecimal getValorMedioPrestacaoSac() {
+        return valorMedioPrestacaoSac;
+    }
+
+    public void setValorMedioPrestacaoSac(BigDecimal valorMedioPrestacaoSac) {
+        this.valorMedioPrestacaoSac = valorMedioPrestacaoSac;
     }
 
     public int getCodigoProduto() {
@@ -35,35 +55,36 @@ public class SimulacaoDetalheDTO {
         this.descricaoProduto = descricaoProduto;
     }
 
-    public BigDecimal getMediaTaxaJuros() {
-        return mediaTaxaJuros;
+    public BigDecimal getTaxaMediaJuro() {
+        return taxaMediaJuro;
     }
 
-    public void setMediaTaxaJuros(BigDecimal mediaTaxaJuros) {
-        this.mediaTaxaJuros = mediaTaxaJuros;
+    public void setTaxaMediaJuro(BigDecimal taxaMediaJuro) {
+        this.taxaMediaJuro = taxaMediaJuro;
     }
 
-    public BigDecimal getMediaValorTotalParcelas() {
-        return mediaValorTotalParcelas;
+
+    public BigDecimal getValorTotalDesejado() {
+        return valorTotalDesejado;
     }
 
-    public void setMediaValorTotalParcelas(BigDecimal mediaValorTotalParcelas) {
-        this.mediaValorTotalParcelas = mediaValorTotalParcelas;
+    public void setValorTotalDesejado(BigDecimal valorTotalDesejado) {
+        this.valorTotalDesejado = valorTotalDesejado;
     }
 
-    public BigDecimal getSomaValorDesejado() {
-        return somaValorDesejado;
+    public BigDecimal getValorTotalCreditoPrice() {
+        return valorTotalCreditoPrice;
     }
 
-    public void setSomaValorDesejado(BigDecimal somaValorDesejado) {
-        this.somaValorDesejado = somaValorDesejado;
+    public void setValorTotalCreditoPrice(BigDecimal valorTotalCreditoPrice) {
+        this.valorTotalCreditoPrice = valorTotalCreditoPrice;
     }
 
-    public BigDecimal getSomaValorTotalParcelas() {
-        return somaValorTotalParcelas;
+    public BigDecimal getValorTotalCreditoSac() {
+        return valorTotalCreditoSac;
     }
 
-    public void setSomaValorTotalParcelas(BigDecimal somaValorTotalParcelas) {
-        this.somaValorTotalParcelas = somaValorTotalParcelas;
+    public void setValorTotalCreditoSac(BigDecimal valorTotalCreditoSac) {
+        this.valorTotalCreditoSac = valorTotalCreditoSac;
     }
 }

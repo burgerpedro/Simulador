@@ -4,6 +4,7 @@ import br.gov.caixa.Simulador.dto.SimulacaoRequestDTO;
 import br.gov.caixa.Simulador.dto.SimulacaoResponseDTO;
 import br.gov.caixa.Simulador.exception.DadosInvalidosException;
 import br.gov.caixa.Simulador.exception.ProdutoNaoEncontradoException;
+import br.gov.caixa.Simulador.model.Parcela;
 import br.gov.caixa.Simulador.model.ResultadoSimulacao;
 import br.gov.caixa.Simulador.model.external.Produto;
 import br.gov.caixa.Simulador.model.local.Simulacao;
@@ -81,9 +82,17 @@ public class SimulacaoService {
     }
 
     private Simulacao criarSimulacao(SimulacaoRequestDTO requestDTO, ResultadoSimulacao resultado) {
-        BigDecimal valorTotalParcelas = resultado.getResultadoSimulacao().stream()
+
+        BigDecimal valorTotalSac = resultado.getResultadoSimulacao().stream()
+                .filter(res -> "SAC".equals(res.getTipo()))
                 .flatMap(res -> res.getParcelas().stream())
-                .map(p -> p.getValorPrestacao())
+                .map(Parcela::getValorPrestacao)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal valorTotalPrice = resultado.getResultadoSimulacao().stream()
+                .filter(res -> "PRICE".equals(res.getTipo()))
+                .flatMap(res -> res.getParcelas().stream())
+                .map(Parcela::getValorPrestacao)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         Simulacao simulacao = new Simulacao();
@@ -92,7 +101,8 @@ public class SimulacaoService {
         simulacao.setTaxaJuros(resultado.getTaxaJuros());
         simulacao.setPrazo(requestDTO.getPrazo());
         simulacao.setValorDesejado(requestDTO.getValorDesejado());
-        simulacao.setValorTotalParcelas(valorTotalParcelas);
+        simulacao.setValorTotalSac(valorTotalSac);
+        simulacao.setValorTotalPrice(valorTotalPrice);
         simulacao.setDataReferencia(LocalDate.now());
 
         try {
@@ -104,6 +114,7 @@ public class SimulacaoService {
 
         return simulacao;
     }
+
 
     private void salvarSimulacao(Simulacao simulacao, ResultadoSimulacao resultado) {
         simulacaoRepository.save(simulacao);
@@ -125,5 +136,9 @@ public class SimulacaoService {
 
     public List<SimulacaoDetalhe> buscarSimulacoesPorDia(LocalDate dataReferencia) {
         return simulacaoRepository.findSimulacoesByDay(dataReferencia);
+    }
+
+    public List<SimulacaoDetalhe> buscarSimulacoesPorDiaEProduto(LocalDate data, int codigoProduto) {
+        return simulacaoRepository.findSimulacoesByDataAndProduto(data, codigoProduto);
     }
 }

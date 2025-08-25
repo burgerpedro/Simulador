@@ -29,8 +29,11 @@ public class Simulacao {
     @Type(JsonType.class)
     private String resultadoSimulacaoJson;
 
-    @Column(name="vr_total_parcela")
-    private BigDecimal valorTotalParcelas;
+    @Column(name="vr_total_price")
+    private BigDecimal valorTotalPrice;
+
+    @Column(name="vr_total_sac")
+    private BigDecimal valorTotalSac;
 
     @Column(name="prazo")
     private int prazo;
@@ -81,12 +84,20 @@ public class Simulacao {
         this.resultadoSimulacaoJson = resultadoSimulacaoJson;
     }
 
-    public BigDecimal getValorTotalParcelas() {
-        return valorTotalParcelas;
+    public BigDecimal getValorTotalPrice() {
+        return valorTotalPrice;
     }
 
-    public void setValorTotalParcelas(BigDecimal valorTotalParcelas) {
-        this.valorTotalParcelas = valorTotalParcelas;
+    public void setValorTotalPrice(BigDecimal valorTotalPrice) {
+        this.valorTotalPrice = valorTotalPrice;
+    }
+
+    public BigDecimal getValorTotalSac() {
+        return valorTotalSac;
+    }
+
+    public void setValorTotalSac(BigDecimal valorTotalSac) {
+        this.valorTotalSac = valorTotalSac;
     }
 
     public int getPrazo() {

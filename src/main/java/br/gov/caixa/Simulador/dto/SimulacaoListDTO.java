@@ -6,19 +6,36 @@ import java.math.BigDecimal;
 
 public class SimulacaoListDTO {
     private int idSimulacao;
-    private int codigoProduto;
-    private String descricaoProduto;
     private BigDecimal valorDesejado;
     private int prazo;
-    private BigDecimal valorTotalParcelas;
+    private BigDecimal valorTotalParcelasPrice;
+    private BigDecimal valorTotalParcelasSac;
+
+    public BigDecimal getValorTotalParcelasPrice() {
+        return valorTotalParcelasPrice;
+    }
+
+    public void setValorTotalParcelasPrice(BigDecimal valorTotalParcelasPrice) {
+        this.valorTotalParcelasPrice = valorTotalParcelasPrice;
+    }
+
+    public BigDecimal getValorTotalParcelasSac() {
+        return valorTotalParcelasSac;
+    }
+
+    public void setValorTotalParcelasSac(BigDecimal valorTotalParcelasSac) {
+        this.valorTotalParcelasSac = valorTotalParcelasSac;
+    }
 
     public SimulacaoListDTO(Simulacao simulacao) {
         this.idSimulacao = simulacao.getIdSimulacao();
-        this.codigoProduto = simulacao.getCodigoProduto();
-        this.descricaoProduto = simulacao.getDescricaoProduto();
         this.valorDesejado = simulacao.getValorDesejado();
         this.prazo = simulacao.getPrazo();
-        this.valorTotalParcelas = simulacao.getValorTotalParcelas();
+        this.valorTotalParcelasPrice = simulacao.getValorTotalPrice();
+        this.valorTotalParcelasSac = simulacao.getValorTotalSac();
+    }
+
+    public SimulacaoListDTO() {
     }
 
     public int getIdSimulacao() {
@@ -27,22 +44,6 @@ public class SimulacaoListDTO {
 
     public void setIdSimulacao(int idSimulacao) {
         this.idSimulacao = idSimulacao;
-    }
-
-    public int getCodigoProduto() {
-        return codigoProduto;
-    }
-
-    public void setCodigoProduto(int codigoProduto) {
-        this.codigoProduto = codigoProduto;
-    }
-
-    public String getDescricaoProduto() {
-        return descricaoProduto;
-    }
-
-    public void setDescricaoProduto(String descricaoProduto) {
-        this.descricaoProduto = descricaoProduto;
     }
 
     public BigDecimal getValorDesejado() {
@@ -61,11 +62,4 @@ public class SimulacaoListDTO {
         this.prazo = prazo;
     }
 
-    public BigDecimal getValorTotalParcelas() {
-        return valorTotalParcelas;
-    }
-
-    public void setValorTotalParcelas(BigDecimal valorTotalParcelas) {
-        this.valorTotalParcelas = valorTotalParcelas;
-    }
 }

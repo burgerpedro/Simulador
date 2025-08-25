@@ -7,29 +7,42 @@ public class SimulacaoDetalhe {
     private int codigoProduto;
     private String descricaoProduto;
     private BigDecimal taxaMediaJuro;
-    private BigDecimal valorMedioPrestacao;
+    private BigDecimal valorMedioPrestacaoPrice;
+    private BigDecimal valorMedioPrestacaoSac;
     private BigDecimal valorTotalDesejado;
-    private BigDecimal valorTotalCredito;
+    private BigDecimal valorTotalPrice;
+    private BigDecimal valorTotalSac;
 
-    public SimulacaoDetalhe(int codigoProduto, String descricaoProduto, BigDecimal taxaMediaJuro, BigDecimal valorMedioPrestacao, BigDecimal valorTotalDesejado, BigDecimal valorTotalCredito) {
+    public SimulacaoDetalhe(int codigoProduto, String descricaoProduto, BigDecimal taxaMediaJuro, BigDecimal valorMedioPrestacaoPrice, BigDecimal valorMedioPrestacaoSac, BigDecimal valorTotalDesejado, BigDecimal valorTotalPrice, BigDecimal valorTotalSac) {
         this.codigoProduto = codigoProduto;
         this.descricaoProduto = descricaoProduto;
         this.taxaMediaJuro = taxaMediaJuro;
-        this.valorMedioPrestacao = valorMedioPrestacao;
+        this.valorMedioPrestacaoPrice = valorMedioPrestacaoPrice;
+        this.valorMedioPrestacaoSac = valorMedioPrestacaoSac;
         this.valorTotalDesejado = valorTotalDesejado;
-        this.valorTotalCredito = valorTotalCredito;
+        this.valorTotalPrice = valorTotalPrice;
+        this.valorTotalSac = valorTotalSac;
+    }
+
+    public BigDecimal getValorMedioPrestacaoPrice() {
+        return valorMedioPrestacaoPrice;
+    }
+
+    public void setValorMedioPrestacaoPrice(BigDecimal valorMedioPrestacaoPrice) {
+        this.valorMedioPrestacaoPrice = valorMedioPrestacaoPrice;
+    }
+
+    public BigDecimal getValorMedioPrestacaoSac() {
+        return valorMedioPrestacaoSac;
+    }
+
+    public void setValorMedioPrestacaoSac(BigDecimal valorMedioPrestacaoSac) {
+        this.valorMedioPrestacaoSac = valorMedioPrestacaoSac;
     }
 
     public SimulacaoDetalhe() {
     }
 
-    public SimulacaoDetalhe(int codigoProduto, String descricaoProduto, BigDecimal taxaMediaJuro, BigDecimal valorTotalCredito, BigDecimal valorTotalDesejado) {
-        this.codigoProduto = codigoProduto;
-        this.descricaoProduto = descricaoProduto;
-        this.taxaMediaJuro = taxaMediaJuro;
-        this.valorTotalCredito = valorTotalCredito;
-        this.valorTotalDesejado = valorTotalDesejado;
-    }
 
     public int getCodigoProduto() {
         return codigoProduto;
@@ -55,13 +68,6 @@ public class SimulacaoDetalhe {
         this.taxaMediaJuro = taxaMediaJuro;
     }
 
-    public BigDecimal getValorMedioPrestacao() {
-        return valorMedioPrestacao;
-    }
-
-    public void setValorMedioPrestacao(BigDecimal valorMedioPrestacao) {
-        this.valorMedioPrestacao = valorMedioPrestacao;
-    }
 
     public BigDecimal getValorTotalDesejado() {
         return valorTotalDesejado;
@@ -71,11 +77,19 @@ public class SimulacaoDetalhe {
         this.valorTotalDesejado = valorTotalDesejado;
     }
 
-    public BigDecimal getValorTotalCredito() {
-        return valorTotalCredito;
+    public BigDecimal getValorTotalPrice() {
+        return valorTotalPrice;
     }
 
-    public void setValorTotalCredito(BigDecimal valorTotalCredito) {
-        this.valorTotalCredito = valorTotalCredito;
+    public void setValorTotalPrice(BigDecimal valorTotalPrice) {
+        this.valorTotalPrice = valorTotalPrice;
+    }
+
+    public BigDecimal getValorTotalSac() {
+        return valorTotalSac;
+    }
+
+    public void setValorTotalSac(BigDecimal valorTotalSac) {
+        this.valorTotalSac = valorTotalSac;
     }
 }

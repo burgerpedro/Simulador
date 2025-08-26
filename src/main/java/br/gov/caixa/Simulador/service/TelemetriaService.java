@@ -12,60 +12,69 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class TelemetriaService {
 
-    private final ConcurrentHashMap<String, EndpointStats> endpointStats = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, EstatisticasEndpoint> estatisticasPorEndpoint = new ConcurrentHashMap<>();
 
-    public void updateMetrics(String endpointName, long duration) {
-        endpointStats.computeIfAbsent(endpointName, k -> new EndpointStats()).addCall(duration);
+    public void atualizarMetricas(String nomeEndpoint, long duracao, int statusHttp) {
+        estatisticasPorEndpoint
+                .computeIfAbsent(nomeEndpoint, k -> new EstatisticasEndpoint())
+                .adicionarChamada(duracao, statusHttp);
     }
 
-    public TelemetriaResponseDTO getTelemetryData() {
+    public TelemetriaResponseDTO obterDadosTelemetria() {
         TelemetriaResponseDTO responseDTO = new TelemetriaResponseDTO();
         responseDTO.setDataReferencia(LocalDate.now());
 
-        List<MetricasTelemetria> metricsList = new ArrayList<>();
-        endpointStats.forEach((endpointName, stats) -> {
-            MetricasTelemetria metrics = new MetricasTelemetria();
-            metrics.setNomeApi(endpointName);
-            metrics.setQtdRequisicoes(stats.getCallCount());
-            metrics.setTempoMedio((long) stats.getAverageTime());
-            metrics.setTempoMinimo(stats.getMinTime());
-            metrics.setTempoMaximo(stats.getMaxTime());
-            metrics.setPercentualSucesso(stats.getSuccessPercentage());
-            metricsList.add(metrics);
+        List<MetricasTelemetria> listaMetricas = new ArrayList<>();
+        estatisticasPorEndpoint.forEach((nomeEndpoint, estatisticas) -> {
+            MetricasTelemetria metricas = new MetricasTelemetria();
+            metricas.setNomeApi(nomeEndpoint);
+            metricas.setQtdRequisicoes(estatisticas.getQtdChamadas());
+            metricas.setTempoMedio((long) estatisticas.getTempoMedio());
+            metricas.setTempoMinimo(estatisticas.getTempoMinimo());
+            metricas.setTempoMaximo(estatisticas.getTempoMaximo());
+            metricas.setPercentualSucesso(estatisticas.getPercentualSucesso());
+            listaMetricas.add(metricas);
         });
 
-        responseDTO.setMetricasTelemetrias(metricsList);
+        responseDTO.setMetricasTelemetrias(listaMetricas);
         return responseDTO;
     }
 
-    public static class EndpointStats {
-        private int callCount = 0;
-        private int successCount = 0;
-        private long totalTime = 0;
-        private long minTime = Long.MAX_VALUE;
-        private long maxTime = Long.MIN_VALUE;
+    public static class EstatisticasEndpoint {
+        private int qtdChamadas = 0;
+        private int qtdSucessos = 0;
+        private long tempoTotal = 0;
+        private long tempoMinimo = Long.MAX_VALUE;
+        private long tempoMaximo = Long.MIN_VALUE;
 
-        public synchronized void addCall(long timeInMs) {
-            callCount++;
-            totalTime += timeInMs;
-            if (timeInMs < minTime) {
-                minTime = timeInMs;
+        public synchronized void adicionarChamada(long tempoMs, int statusHttp) {
+            qtdChamadas++;
+            tempoTotal += tempoMs;
+
+            if (tempoMs < tempoMinimo) {
+                tempoMinimo = tempoMs;
             }
-            if (timeInMs > maxTime) {
-                maxTime = timeInMs;
+            if (tempoMs > tempoMaximo) {
+                tempoMaximo = tempoMs;
             }
 
-            successCount++;
+            if (statusHttp >= 200 && statusHttp < 300) {
+                qtdSucessos++;
+            }
         }
 
-        public int getCallCount() { return callCount; }
-        public double getAverageTime() {
-            return callCount > 0 ? (double) totalTime / callCount : 0.0;
+        public int getQtdChamadas() { return qtdChamadas; }
+
+        public double getTempoMedio() {
+            return qtdChamadas > 0 ? (double) tempoTotal / qtdChamadas : 0.0;
         }
-        public long getMinTime() { return minTime; }
-        public long getMaxTime() { return maxTime; }
-        public int getSuccessPercentage() {
-            return callCount > 0 ? (successCount * 100) / callCount : 0;
+
+        public long getTempoMinimo() { return tempoMinimo == Long.MAX_VALUE ? 0 : tempoMinimo; }
+
+        public long getTempoMaximo() { return tempoMaximo == Long.MIN_VALUE ? 0 : tempoMaximo; }
+
+        public int getPercentualSucesso() {
+            return qtdChamadas > 0 ? (qtdSucessos * 100) / qtdChamadas : 0;
         }
     }
 }

@@ -25,7 +25,6 @@ import java.util.HashMap;
 )
 public class LocalDataSourceConfig {
 
-    // Spring will automatically create this bean and apply the properties
     @Primary
     @Bean(name = "localDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.local")

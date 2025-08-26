@@ -5,6 +5,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -12,19 +13,24 @@ import org.springframework.stereotype.Component;
 public class TelemetriaAspect {
 
     @Autowired
-    private TelemetriaService telemetryService;
+    private TelemetriaService telemetriaService;
 
     @Around("execution(* br.gov.caixa.Simulador.controller.SimulacaoController.*(..))")
-    public Object profileAllSimuladorControllerMethods(ProceedingJoinPoint joinPoint) throws Throwable {
-        long start = System.currentTimeMillis();
-        Object result = joinPoint.proceed();
-        long end = System.currentTimeMillis();
-        long duration = end - start;
+    public Object monitorarMetodosController(ProceedingJoinPoint joinPoint) throws Throwable {
+        long inicio = System.currentTimeMillis();
+        Object resultado = joinPoint.proceed();
+        long fim = System.currentTimeMillis();
+        long duracao = fim - inicio;
 
-        String endpointName = joinPoint.getSignature().getName();
+        String nomeEndpoint = joinPoint.getSignature().getName();
 
-        telemetryService.updateMetrics(endpointName, duration);
+        int statusHttp = 500;
+        if (resultado instanceof ResponseEntity<?> response) {
+            statusHttp = response.getStatusCode().value();
+        }
 
-        return result;
+        telemetriaService.atualizarMetricas(nomeEndpoint, duracao, statusHttp);
+
+        return resultado;
     }
 }

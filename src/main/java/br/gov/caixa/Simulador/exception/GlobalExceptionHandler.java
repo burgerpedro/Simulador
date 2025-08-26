@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
         body.put("status", HttpStatus.NOT_FOUND.value());
         body.put("error", "Não Encontrado");
         body.put("message", ex.getMessage());
-        body.put("path", request.getDescription(false).substring(4)); // Remove "uri="
+        body.put("path", request.getDescription(false).substring(4));
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
@@ -33,9 +33,21 @@ public class GlobalExceptionHandler {
         body.put("status", HttpStatus.BAD_REQUEST.value());
         body.put("error", "Dados invalidos");
         body.put("message", ex.getMessage());
-        body.put("path", request.getDescription(false).substring(4)); // Remove "uri="
+        body.put("path", request.getDescription(false).substring(4));
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SerealizacaoException.class)
+    public ResponseEntity<Object> handleSerealizacao(SerealizacaoException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        body.put("error", "Erro serealizacao JSON");
+        body.put("message", ex.getMessage());
+        body.put("path", request.getDescription(false).substring(4));
+
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)

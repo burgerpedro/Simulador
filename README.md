@@ -1,64 +1,84 @@
-Simulador de crédito
-Este projeto é uma aplicação Spring Boot que atua como um simulador de crédito. Ele foi projetado para testar e monitorar o desempenho de chamadas a um serviço externo, registrando métricas como tempo de resposta, sucesso das chamadas e porcentagem de sucesso.
+🏦 Simulador de Crédito
 
-Funcionalidades
-Simulação de Chamadas: Executa chamadas a um serviço externo para simular carga de trabalho.
+Este projeto é uma aplicação Spring Boot para simulação de crédito, testar e monitorar o desempenho de chamadas a serviços externos, registrando métricas como:
 
-Monitoramento de Desempenho: Coleta e armazena métricas de desempenho para análise.
+Tempo de resposta
 
-Persistência de Dados: Salva os resultados das simulações em um banco de dados local.
+Sucesso das chamadas
 
-Tecnologias Utilizadas
-Spring Boot: Framework para desenvolvimento de aplicações Java.
+Porcentagem de sucesso
 
-Maven: Ferramenta de gerenciamento de dependências.
+A aplicação roda de forma nativa ou em containers Docker via Docker Compose.
 
-JPA/Hibernate: Para mapeamento e persistência de dados.
+🚀 Funcionalidades
 
-PostgreSQL: Banco de dados relacional para armazenamento dos resultados.
+Simulação de Chamadas → Executa chamadas para serviços externos
 
-AspectJ: Para implementação de programação orientada a aspectos e interceptação de chamadas.
+Monitoramento de Desempenho → Coleta métricas detalhadas
 
-Como Executar a Aplicação
-Pré-requisitos
-JDK 17 ou superior
+Persistência de Dados → Armazena resultados no PostgreSQL local
+
+Integração com Banco Externo → Conexão com SQL Server hospedado no Azure
+
+Swagger UI → Documentação interativa da API disponível automaticamente
+
+🛠 Tecnologias Utilizadas
+
+Java 21
+
+Spring Boot 3.5.4
 
 Maven
 
-PostgreSQL
+JPA/Hibernate
 
-Acesso ao banco de dados externo (para a simulação)
+PostgreSQL (banco local)
 
-Configuração do Banco de Dados
-Crie um banco de dados local PostgreSQL e configure as credenciais no arquivo src/main/resources/application.properties. Certifique-se de que a sua configuração seja semelhante a esta:
+SQL Server (banco externo)
 
-spring.datasource.local.jdbc-url=jdbc:postgresql://localhost:5432/simulador
-spring.datasource.local.username=postgres
-spring.datasource.local.password=123
-spring.datasource.local.driver-class-name=org.postgresql.Driver
+Azure Event Hubs (mensageria)
 
-Inicialização
+AspectJ (interceptação de chamadas)
+
+Springdoc OpenAPI (Swagger UI)
+
+Docker / Docker Compose
+
+⚙️ Como Executar a Aplicação
+✅ Pré-requisitos
+
+Docker
+
+Docker Compose
+
+▶️ Executando com Docker
+
 Clone o repositório:
-git clone https://github.com/seu-usuario/Simulador.git
 
-Navegue até a pasta do projeto:
+git clone https://github.com/burgerpedro/Simulador.git
 cd Simulador
 
-Execute a aplicação:
-./mvnw spring-boot:run
 
-A aplicação estará acessível em http://localhost:8080/simulador/v1
+Suba os containers com Docker Compose:
 
-Collection Postman:
-https://api.postman.com/collections/47792610-a51bbeef-2666-42da-869b-604d2ff1bd78?access_key=PMAT-01K3766KJGJS6NQGR8KDKBN0YG
+docker-compose up -d --build
 
-Estrutura do Projeto
-src/main/java/br/gov/caixa/Simulador: Código-fonte da aplicação.
 
-src/main/java/br/gov/caixa.Simulador.config.local: Classes de configuração do banco de dados local.
+Acesse a aplicação:
 
-src/main/java/br.gov.caixa.Simulador.config.external: Classes de configuração do banco de dados externo.
+API: 👉 http://localhost:8080/simulador/v1
 
-src/main/java/br.gov.caixa.Simulador.model.local: Classes de entidade para o banco de dados local.
+Swagger UI: 👉 http://localhost:8080/swagger-ui.html
 
-src/main/resources/application.properties: Arquivo de configuração da aplicação.
+📬 Collection Postman
+
+Acesse a collection no Postman:
+Simulador de Crédito - Collection
+
+📂 Estrutura do Projeto
+src/main/java/br/gov/caixa/Simulador                 → Código-fonte principal
+src/main/java/br/gov/caixa/Simulador/config/local    → Configuração do banco local
+src/main/java/br/gov/caixa/Simulador/config/external → Configuração do banco externo
+src/main/java/br/gov/caixa/Simulador/model/local     → Entidades do banco local
+src/main/java/br/gov/caixa/Simulador/model/external     → Entidades do banco externo
+src/main/resources/application.properties            → Configuração da aplicação

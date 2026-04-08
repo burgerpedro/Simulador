@@ -78,6 +78,7 @@ Acesse a collection no Postman:
 Simulador de Crédito - Collection
 
 📂 Estrutura do Projeto
+``` bash
 src
 ├── main
 │   ├── java/br/gov/caixa/Simulador
@@ -93,3 +94,4 @@ src
 └── test/java/br/gov/caixa/Simulador
     ├── controller
     └── service
+``` 

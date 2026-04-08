@@ -26,7 +26,7 @@ Swagger UI → Documentação interativa da API disponível automaticamente
 
 Java 21
 
-Spring Boot 3.5.4
+Spring Boot 3.5
 
 Maven
 

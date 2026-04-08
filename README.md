@@ -51,6 +51,8 @@ Docker
 
 Docker Compose
 
+JDK
+
 ▶️ Executando com Docker
 
 Clone o repositório:

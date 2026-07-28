@@ -1,4 +1,4 @@
-🏦 Simulador de Crédito
+🏦 Simulador de Crédito SAC e PRICE
 
 Este projeto é uma aplicação Spring Boot para simulação de crédito, testar e monitorar o desempenho de chamadas a serviços externos, registrando métricas como:
 

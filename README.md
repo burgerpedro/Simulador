@@ -1,4 +1,4 @@
-🏦 Simulador de Crédito Price e Sac
+🏦 Simulador de Crédito SAC e PRICE
 
 Este projeto é uma aplicação Spring Boot para simulação de crédito, testar e monitorar o desempenho de chamadas a serviços externos, registrando métricas como:
 
@@ -26,7 +26,7 @@ Swagger UI → Documentação interativa da API disponível automaticamente
 
 Java 21
 
-Spring Boot 3.5.4
+Spring Boot 3.5
 
 Maven
 
@@ -76,9 +76,20 @@ Acesse a collection no Postman:
 Simulador de Crédito - Collection
 
 📂 Estrutura do Projeto
-src/main/java/br/gov/caixa/Simulador                 → Código-fonte principal
-src/main/java/br/gov/caixa/Simulador/config/local    → Configuração do banco local
-src/main/java/br/gov/caixa/Simulador/config/external → Configuração do banco externo
-src/main/java/br/gov/caixa/Simulador/model/local     → Entidades do banco local
-src/main/java/br/gov/caixa/Simulador/model/external     → Entidades do banco externo
-src/main/resources/application.properties            → Configuração da aplicação
+``` bash
+src
+├── main
+│   ├── java/br/gov/caixa/Simulador
+│   │   ├── config
+│   │   ├── controller
+│   │   ├── dto
+│   │   ├── exception
+│   │   ├── model
+│   │   ├── repository
+│   │   └── service
+│   └── resources
+│       └── application.properties
+└── test/java/br/gov/caixa/Simulador
+    ├── controller
+    └── service
+``` 

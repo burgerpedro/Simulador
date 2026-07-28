@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: simulador_postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=simulador
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+    ports:
+      - "5432:5432"
+    networks:
+      - simulador-net
+
+  simulador:
+    build: .
+    container_name: simulador_app
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_LOCAL_JDBC-URL=jdbc:postgresql://postgres:5432/simulador
+      - SPRING_DATASOURCE_LOCAL_USERNAME=postgres
+      - SPRING_DATASOURCE_LOCAL_PASSWORD=123
+      - SPRING_DATASOURCE_LOCAL_DRIVER-CLASS-NAME=org.postgresql.Driver
+    ports:
+      - "8080:8080"
+    networks:
+      - simulador-net
+
+networks:
+  simulador-net:
+    driver: bridge
